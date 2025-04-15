@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="equifair",
+    name="equiface",
     version="0.1.0",
     packages=find_packages(),
     install_requires=[
@@ -15,10 +15,10 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "equifair = equifair.__main__:main",
+            "equiface = equiface.__main__:main",
         ],
     },
-    author="Your Name",
+    author="Tajwar Choudhury",
     description="A package to calculate FPR and FNR for TFLite face verification models",
     license="MIT",
 )
