@@ -18,7 +18,7 @@ setup(
             "equifair = equifair.__main__:main",
         ],
     },
-    author="Your Name",
+    author="Tajwar Choudhury",
     description="A package to calculate FPR and FNR for TFLite face verification models",
     license="MIT",
 )
