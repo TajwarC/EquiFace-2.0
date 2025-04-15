@@ -1,1 +1,1 @@
-"# EquiFace-2.0" 
+"EquiFace-2.0" 
