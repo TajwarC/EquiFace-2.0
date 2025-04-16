@@ -17,19 +17,27 @@ def preprocess_image(image_path):
     Returns:
         np.ndarray or None: Preprocessed image or None if no person detected.
     """
-    results = _yolo_model(image_path)
+    model = YOLO("yolov11n-face.pt")
+    results = model(image_path)
     for result in results:
-        for cls in result.boxes.cls:
-            if _yolo_model.names[int(cls)] == 'person':
-                image = cv2.imread(image_path)
-                if image is None:
-                    return None
-                image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-                image = cv2.resize(image, (160, 160))
-                image = np.expand_dims(image, axis=0).astype(np.float32) / 255.0
-                return image
-    return None
-
+        boxes = result.boxes
+        clss = result.boxes.cls 
+    for cls in clss:
+        if model.names[int(cls)] == 'face':
+            image = cv2.imread(image_path)
+            boxes = results[0].boxes.xyxy.tolist()
+            for i, box in enumerate(boxes):
+                x1, y1, x2, y2 = box
+            # Crop the object using the bounding box coordinates
+            crop_image = image[int(y1):int(y2), int(x1):int(x2)]
+            #if image is None:
+                #return None
+            crop_image = cv2.cvtColor(crop_image, cv2.COLOR_BGR2RGB)
+            crop_image = cv2.resize(crop_image, (224, 224))
+            crop_image = np.expand_dims(crop_image, axis=0).astype(np.float32) / 255.0
+            return crop_image
+        if model.names[int(cls)] != 'face':
+            return None 
 
 def get_embedding(interpreter, image):
     """
