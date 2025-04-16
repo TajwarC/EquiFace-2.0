@@ -1,5 +1,6 @@
 # EquiFace-2.0
-![Model](https://github.com/TajwarC/VeriFair/blob/main/logo.png)
+
+<a href="url"><img src="https://github.com/TajwarC/VeriFair/blob/main/logo.png" align="left" height="48" width="48" ></a>
 
 EquiFace is a fairness benchmarking tool for biometric models used in facial verification. It requires just two inputs, the model in a ```.tflite``` format, and a testing dataset in the following format:
 
