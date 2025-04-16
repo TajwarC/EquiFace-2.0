@@ -4,32 +4,33 @@ EquiFace is a fairness benchmarking tool for biometric models used in facial ver
 ```
 .
 └── Testing Dataset/
-    ├── Demographic group A/
+    ├── Group A/
     │   ├── ID_1/
     │   │   ├── img_1
     │   │   ├── img_2
     │   │   ├── ...
-    │   │   └── img_n
+    │   │   └── img_k
     │   ├── ID_2/
     │   │   ├── img_1
     │   │   ├── img_2
     │   │   ├── ...
-    │   │   └── img_n
+    │   │   └── img_k
     │   ├── ...
-    │   └── ID_k
-    ├── Demographic group B/
+    │   └── ID_n
+    ├── Group B/
     │   ├── ID_1/
     │   │   ├── img_1
     │   │   ├── img_2
     │   │   ├── ...
-    │   │   └── img_n
+    │   │   └── img_k
     │   ├── ID_2/
     │   │   ├── img_1
     │   │   ├── img_2
     │   │   ├── ...
-    │   │   └── img_n
+    │   │   └── img_k
     │   ├── ...
-    │   └── ID_k
+    │   └── ID_n
     ├── ...
-    └── Demographic group Z
+    └── Group Z
 ```
+Where there are A-Z groups (such as skin tone or ethnic groups), each containing n individuals, and k images per individual.
