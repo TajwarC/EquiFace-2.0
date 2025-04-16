@@ -54,3 +54,23 @@ FNR(dataset_dir, model_path, percentage=100, use_multiprocessing=True, num_cores
 FPR(dataset_dir, model_path, percentage=100, use_multiprocessing=True, num_cores=4)
 
 ```
+
+The results are saved into a YAML file:
+
+```
+- False Negatives: 67
+  dataset: testing_dataset/group_1
+  metric: FNR
+  model_name: model
+  num_selected: 1251
+  total_pairs: 2502
+  value: 0.0536
+- False Positives: 699
+  dataset: testing_dataset/group_1
+  metric: FPR
+  model_name: model
+  num_selected: 1563
+  total_pairs: 3126249
+  value: 0.4472
+
+```
