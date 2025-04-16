@@ -8,7 +8,7 @@ _yolo_model = YOLO("yolo11n.pt")
 
 def preprocess_image(image_path):
     """
-    Loads an image, checks if it contains a person using YOLO,
+    Loads an image, checks if it contains a person using YOLO11
     and returns a preprocessed image ready for model input.
 
     Args:
