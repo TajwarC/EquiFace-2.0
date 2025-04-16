@@ -1,4 +1,4 @@
-## EquiFace-2.0
+# EquiFace-2.0
 EquiFace is a fairness benchmarking tool for biometric models used in facial verification. It requires just two inputs, the model in a ```.tflite``` format, and a testing dataset in the following format:
 
 ```
@@ -38,7 +38,7 @@ Where there are A-Z groups (such as skin tone or ethnic groups), each containing
 The False Negative Rate (FNR) is calculated by taking an input pair from each ID (e.g. img_1 and img_2), then computing the cosine similarity between the embeddings. A false positive occurs when an input pair is not verified for a particular ID. This is done for all input pairs, for all IDs in each group.
 
 The False Positive Rate (FPR) is calculated similarily, except input pairs are now images of one ID with another.
-# Example usage
+## Example usage
 
 ```
 # Imports
