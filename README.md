@@ -45,10 +45,10 @@ The False Positive Rate (FPR) is calculated similarily, except input pairs are n
 
 Installation
 
-```
+```python
 pip install equiface==0.1.1
 ```
-```
+```python
 # Imports
 from equiface.verification import FPR, FNR
 
