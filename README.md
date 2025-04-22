@@ -43,6 +43,11 @@ The False Negative Rate (FNR) is calculated by taking an input pair from each ID
 The False Positive Rate (FPR) is calculated similarily, except input pairs are now images of one ID with another.
 ## Example usage
 
+Installation
+
+```
+pip install equiface==0.1.1
+```
 ```
 # Imports
 from equiface.verification import FPR, FNR
