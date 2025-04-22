@@ -67,7 +67,7 @@ FNR(dataset_dir,
     use_multiprocessing=True,
     num_cores=4)
 
-FNR(dataset_dir,
+FPR(dataset_dir,
     model_path,
     image_size
     threshold
