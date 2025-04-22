@@ -52,16 +52,28 @@ pip install equiface==0.1.1
 # Imports
 from equiface.verification import FPR, FNR
 
-# Directories
+# Directories and parameters
 dataset_dir = 'testing_dataset/group_1'
 model_path = 'model.tflite'
+image_size = (160,160) # Input dimension for model
+threshold = 0.5 # Threshold for cosine similarity
 
 # FNR
-FNR(dataset_dir, model_path, percentage=100, use_multiprocessing=True, num_cores=4)
+FNR(dataset_dir,
+    model_path,
+    image_size
+    threshold
+    percentage=100,
+    use_multiprocessing=True,
+    num_cores=4)
 
-# FPR
-FPR(dataset_dir, model_path, percentage=100, use_multiprocessing=True, num_cores=4)
-
+FNR(dataset_dir,
+    model_path,
+    image_size
+    threshold
+    percentage=100,
+    use_multiprocessing=True,
+    num_cores=4)
 ```
 
 The results are saved into a YAML file:
