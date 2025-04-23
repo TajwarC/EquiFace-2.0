@@ -37,8 +37,12 @@ def verify(model_path, img1_path, img2_path, threshold=DEFAULT_THRESHOLD,
 def verify_pair(args):
     return verify(*args)
 
-def process_pairs(image_pairs, model_path, use_multiprocessing=False, num_cores=None,
-                  threshold=DEFAULT_THRESHOLD, image_size=IMAGE_SIZE):
+def process_pairs(image_pairs,
+                  model_path,
+                  use_multiprocessing=False,
+                  num_cores=None,
+                  threshold=DEFAULT_THRESHOLD,
+                  image_size=IMAGE_SIZE):
     valid_results = []
 
     args_list = [(model_path, img1, img2, threshold, image_size) for img1, img2 in image_pairs]
@@ -59,8 +63,31 @@ def process_pairs(image_pairs, model_path, use_multiprocessing=False, num_cores=
 
     return valid_results
 
-def FPR(dataset_dir, model_path, percentage=100, use_multiprocessing=False, num_cores=None,
-        threshold=DEFAULT_THRESHOLD, image_size=IMAGE_SIZE):
+def FPR(dataset_dir,
+        model_path,
+        percentage=100,
+        use_multiprocessing=False,
+        num_cores=None,
+        threshold=DEFAULT_THRESHOLD,
+        image_size=IMAGE_SIZE):
+    
+    """
+    Calculate False Positive Rates (FPRs) for the given TFlite model. 
+    
+    Args:
+        dataset_dir (str): Path to demographic subfolder in main dataset directory
+        model_path (str): Path to TFlite model
+        Percentage (int): Percentage of total comparisons possible, i.e. if there are 64 possible comparisons
+        percentage=50 will compute 32 comparisons.
+        use_multiprocessing (bool): use multiprocessing to utilise multiple CPU threads
+        num_cores (int): Number of CPU cores to be utilised
+        threshold (float): Threshold for cosine similarity 
+        image_size ((int,int)): Input dimension
+    
+    Returns:
+        FPR_value: The false positive rate for the IDs in the given dataset_dir
+    """
+    
     subfolders = sorted([
         f for f in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, f))
     ])
@@ -78,8 +105,12 @@ def FPR(dataset_dir, model_path, percentage=100, use_multiprocessing=False, num_
     num_selected = int((percentage / 100) * total_pairs)
     image_pairs = random.sample(image_pairs, num_selected)
 
-    results = process_pairs(image_pairs, model_path, use_multiprocessing, num_cores,
-                            threshold, image_size)
+    results = process_pairs(image_pairs,
+                            model_path,
+                            use_multiprocessing,
+                            num_cores,
+                            threshold,
+                            image_size)
     num_processed = len(results)
 
     FP = sum(match for match, _ in results)
@@ -93,16 +124,44 @@ def FPR(dataset_dir, model_path, percentage=100, use_multiprocessing=False, num_
     print(f'Mean FPR: {FPR_value:.4%}')
     print(f'Average similarity: {avg_similarity:.4f}')
 
-    log_results(dataset_dir, model_path, "FPR", FPR_value, total_pairs, num_processed, FP=FP, mean_similarity=avg_similarity)
+    log_results(dataset_dir,
+                model_path,
+                "FPR",
+                FPR_value,
+                total_pairs,
+                num_processed,
+                FP=FP,
+                mean_similarity=avg_similarity)
 
     return FPR_value
 
-def FNR(dataset_dir, model_path, percentage=100, use_multiprocessing=False, num_cores=None,
-        threshold=DEFAULT_THRESHOLD, image_size=IMAGE_SIZE):
+def FNR(dataset_dir,
+        model_path,
+        percentage=100,
+        use_multiprocessing=False,
+        num_cores=None,
+        threshold=DEFAULT_THRESHOLD,
+        image_size=IMAGE_SIZE):
     subfolders = sorted([
         f for f in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, f))
     ])
-
+    
+    """
+    Calculate False Negative Rates (FNRs) for the given TFlite model. 
+    
+    Args:
+        dataset_dir (str): Path to demographic subfolder in main dataset directory
+        model_path (str): Path to TFlite model
+        Percentage (int): Percentage of total comparisons possible, i.e. if there are 64 possible comparisons
+        percentage=50 will compute 32 comparisons.
+        use_multiprocessing (bool): use multiprocessing to utilise multiple CPU threads
+        num_cores (int): Number of CPU cores to be utilised
+        threshold (float): Threshold for cosine similarity 
+        image_size ((int,int)): Input dimension
+    
+    Returns:
+        FNR_value: The false negative rate for the IDs in the given dataset_dir
+    """
     image_pairs = [
         (os.path.join(dataset_dir, folder, img1), os.path.join(dataset_dir, folder, img2))
         for folder in subfolders
@@ -117,8 +176,12 @@ def FNR(dataset_dir, model_path, percentage=100, use_multiprocessing=False, num_
     num_selected = int((percentage / 100) * total_pairs)
     image_pairs = random.sample(image_pairs, num_selected)
 
-    results = process_pairs(image_pairs, model_path, use_multiprocessing, num_cores,
-                            threshold, image_size)
+    results = process_pairs(image_pairs,
+                            model_path,
+                            use_multiprocessing,
+                            num_cores,
+                            threshold,
+                            image_size)
     num_processed = len(results)
 
     FN = sum(not match for match, _ in results)
@@ -132,6 +195,13 @@ def FNR(dataset_dir, model_path, percentage=100, use_multiprocessing=False, num_
     print(f'Mean FNR: {FNR_value:.4%}')
     print(f'Average similarity: {avg_similarity:.4f}')
 
-    log_results(dataset_dir, model_path, "FNR", FNR_value, total_pairs, num_processed, FN=FN, mean_similarity=avg_similarity)
+    log_results(dataset_dir,
+                model_path,
+                "FNR",
+                FNR_value,
+                total_pairs,
+                num_processed,
+                FN=FN,
+                mean_similarity=avg_similarity)
 
     return FNR_value
