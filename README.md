@@ -95,3 +95,6 @@ The results are saved into a YAML file:
   value: 0.4472
 
 ```
+We also provide templates for converting TensorFlow models into the TFLite format, using model architecture and weights provided by DeepFace [1].
+
+[1] S. Serengil and A. Ozpinar, "A Benchmark of Facial Recognition Pipelines and Co-Usability Performances of Modules", Journal of Information Technologies, vol. 17, no. 2, pp. 95-107, 2024.
