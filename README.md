@@ -48,6 +48,7 @@ Installation
 ```python
 pip install equiface==0.1.1
 ```
+Calculating FPRs and FNRs
 ```python
 # Imports
 from equiface.verification import FPR, FNR
