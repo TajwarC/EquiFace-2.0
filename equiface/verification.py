@@ -136,7 +136,7 @@ def FPR(dataset_dir,
                 "FPR",
                 FPR_value,
                 total_pairs,
-                num_processed,
+                num_selected,
                 FP=FP,
                 mean_similarity=avg_similarity)
 
@@ -207,7 +207,7 @@ def FNR(dataset_dir,
                 "FNR",
                 FNR_value,
                 total_pairs,
-                num_processed,
+                num_selected,
                 FN=FN,
                 mean_similarity=avg_similarity)
 
