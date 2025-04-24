@@ -35,20 +35,21 @@ def preprocess_image(image_path, image_size):
     results = _yolo_model(image_path)
     padding = image_size/10
     for result in results:
-        clss = result.boxes.cls
-        boxes = result.boxes.xyxy.tolist()
-        for cls, box in zip(clss, boxes):
-            if _yolo_model.names[int(cls)] == 'face':
-                image = cv2.imread(image_path)
-                if image is None:
-                    return None
-                x1, y1, x2, y2 = map(int, box)
-                crop_image = image[(y1-padding):(y2+padding), (x1-padding):(x2+padding)]
-                crop_image = cv2.cvtColor(crop_image, cv2.COLOR_BGR2RGB)
-                crop_image = cv2.resize(crop_image, image_size)
-                crop_image = np.expand_dims(crop_image, axis=0).astype(np.float32) / 255.0
-                return crop_image
-    return None
+        boxes = result.boxes
+        clss = result.boxes.cls 
+    for cls in clss:
+        if _yolo_model.names[int(cls)] == 'face':
+            image = cv2.imread(image_path)
+            boxes = results[0].boxes.xyxy.tolist()
+            for i, box in enumerate(boxes):
+                x1, y1, x2, y2 = box
+            crop_image = image[int(y1-padding):int(y2+padding), int(x1-padding):int(x2+padding)]
+            crop_image = cv2.cvtColor(crop_image, cv2.COLOR_BGR2RGB)
+            crop_image = cv2.resize(crop_image, (image_size, image_size))
+            crop_image = np.expand_dims(crop_image, axis=0).astype(np.float32) / 255.0
+            return crop_image
+        if _yolo_model.names[int(cls)] != 'face':
+            return None 
 
 def get_embedding(interpreter, image):
     """
