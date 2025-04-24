@@ -33,6 +33,7 @@ def preprocess_image(image_path, image_size):
         np.ndarray or None: Preprocessed image or None if no face is detected.
     """
     results = _yolo_model(image_path)
+    padding = image_size/10
     for result in results:
         clss = result.boxes.cls
         boxes = result.boxes.xyxy.tolist()
@@ -42,7 +43,7 @@ def preprocess_image(image_path, image_size):
                 if image is None:
                     return None
                 x1, y1, x2, y2 = map(int, box)
-                crop_image = image[y1:y2, x1:x2]
+                crop_image = image[(y1-padding):(y2+padding), (x1-padding):(x2+padding)]
                 crop_image = cv2.cvtColor(crop_image, cv2.COLOR_BGR2RGB)
                 crop_image = cv2.resize(crop_image, image_size)
                 crop_image = np.expand_dims(crop_image, axis=0).astype(np.float32) / 255.0
