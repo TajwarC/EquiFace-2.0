@@ -5,6 +5,7 @@ import numpy as np
 from tqdm import tqdm
 from multiprocessing import Pool, cpu_count
 import tensorflow.lite as tflite
+from functools import lru_cache
 
 from .image_utils import preprocess_image, get_embedding
 from .logging_utils import log_results
@@ -17,10 +18,16 @@ def normalise(embedding):
         raise ValueError("Zero-norm embedding cannot be normalised.")
     return embedding / norm
 
+@lru_cache(maxsize=5)
+def load_interpreter(model_path):
+    interpreter = tflite.Interpreter(model_path=model_path)
+    interpreter.allocate_tensors()
+    return interpreter
+
 def verify(model_path, img1_path, img2_path, threshold=DEFAULT_THRESHOLD,
            image_size=IMAGE_SIZE):
     """Compares two images using a TFLite model and returns verification result."""
-    interpreter = tflite.Interpreter(model_path=model_path)
+    interpreter = load_interpreter(model_path)
     interpreter.allocate_tensors()
 
     img1 = preprocess_image(img1_path, image_size)
