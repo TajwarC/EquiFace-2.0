@@ -1,0 +1,64 @@
+- False Negatives: 12
+  dataset: controlface10k\Asian
+  mean_similarity: 0.7515
+  metric: FNR
+  model_name: tflite_models/facenet.tflite
+  num_selected: 625
+  total_pairs: 2502
+  value: 0.0192
+- False Positives: 124
+  dataset: controlface10k\Asian
+  mean_similarity: 0.2341
+  metric: FPR
+  model_name: tflite_models/facenet.tflite
+  num_selected: 781
+  total_pairs: 3126249
+  value: 0.1588
+- False Negatives: 45
+  dataset: controlface10k\Caucasian
+  mean_similarity: 0.6831
+  metric: FNR
+  model_name: tflite_models/facenet.tflite
+  num_selected: 625
+  total_pairs: 2502
+  value: 0.072
+- False Positives: 146
+  dataset: controlface10k\Caucasian
+  mean_similarity: 0.2764
+  metric: FPR
+  model_name: tflite_models/facenet.tflite
+  num_selected: 781
+  total_pairs: 3126249
+  value: 0.1869
+- False Negatives: 2
+  dataset: controlface10k\Indian
+  mean_similarity: 0.8061
+  metric: FNR
+  model_name: tflite_models/facenet.tflite
+  num_selected: 625
+  total_pairs: 2502
+  value: 0.0032
+- False Positives: 290
+  dataset: controlface10k\Indian
+  mean_similarity: 0.4081
+  metric: FPR
+  model_name: tflite_models/facenet.tflite
+  num_selected: 781
+  total_pairs: 3126249
+  value: 0.3713
+- False Negatives: 4
+  dataset: controlface10k\african
+  mean_similarity: 0.7583
+  metric: FNR
+  model_name: tflite_models/facenet.tflite
+  num_selected: 625
+  total_pairs: 2502
+  value: 0.0064
+- False Positives: 282
+  dataset: controlface10k\african
+  mean_similarity: 0.3979
+  metric: FPR
+  model_name: tflite_models/facenet.tflite
+  num_selected: 781
+  total_pairs: 3126249
+  value: 0.3611
