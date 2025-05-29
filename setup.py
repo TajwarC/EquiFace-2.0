@@ -11,7 +11,7 @@ setup(
         "tqdm",
         "pyyaml",
         "tensorflow",
-        "ultralytics"
+        "ultralytics",
         "deepface",
     ],
     entry_points={

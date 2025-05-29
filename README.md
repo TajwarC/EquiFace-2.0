@@ -62,16 +62,16 @@ threshold = 0.5 # Threshold for cosine similarity
 # FNR
 FNR(dataset_dir,
     model_path,
-    image_size,
-    threshold,
+    image_size=image_size,
+    threshold=threshold,
     percentage=100,
     use_multiprocessing=True,
     num_cores=4)
 
 FPR(dataset_dir,
     model_path,
-    image_size,
-    threshold,
+    image_size=image_size,
+    threshold=threshold,
     percentage=100,
     use_multiprocessing=True,
     num_cores=4)
