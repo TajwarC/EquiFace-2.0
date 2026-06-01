@@ -172,3 +172,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# TFlite models and weights
+*.h5
+*.tflite
+ 

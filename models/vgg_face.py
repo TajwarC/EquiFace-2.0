@@ -1,6 +1,8 @@
+import os
+import argparse
+from pathlib import Path
 import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.models import Model, Sequential
+from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, ZeroPadding2D, Convolution2D, MaxPooling2D
 from tensorflow.keras.layers import Dropout, Flatten, Activation
 
@@ -58,18 +60,41 @@ def base_model_functional():
     model = Model(inputs=input_layer, outputs=output)
     return model
 
-# Build the model
-functional_model = base_model_functional()
-functional_model.load_weights("vgg_face_weights.h5") # Download link "https://github.com/serengil/deepface_models/releases/download/v1.0/vgg_face_weights.h5"
+def convert_vgg_face(weights_path, output_path):
+    print(f"Loading weights from {weights_path}...")
+    functional_model = base_model_functional()
+    functional_model.load_weights(weights_path)
 
-# Extract embeddings from the fc7 layer
-embedding_model = Model(inputs=functional_model.input,
-                        outputs=functional_model.get_layer("fc7").output)
+    print("Extracting embeddings from the fc7 layer...")
+    embedding_model = Model(inputs=functional_model.input,
+                            outputs=functional_model.get_layer("fc7").output)
 
-# Convert the model
-converter = tf.lite.TFLiteConverter.from_keras_model(embedding_model)
-tflite_model = converter.convert()
+    print("Converting the model to TFLite...")
+    converter = tf.lite.TFLiteConverter.from_keras_model(embedding_model)
+    tflite_model = converter.convert()
 
-# Save the model
-with open('vgg_face.tflite', 'wb') as f:
-  f.write(tflite_model)
+    print(f"Saving the model to {output_path}...")
+    with open(output_path, 'wb') as f:
+        f.write(tflite_model)
+    print("Conversion complete.")
+
+def main():
+    default_weights = Path(__file__).parent / "vgg_face_weights.h5"
+
+    parser = argparse.ArgumentParser(description="Convert VGG Face Keras model to TFLite")
+    parser.add_argument("--weights", type=str, default=str(default_weights),
+                        help=f"Path to vgg_face_weights.h5 (default: {default_weights})")
+    parser.add_argument("--output", type=str, default="vgg_face.tflite",
+                        help="Path to save the output TFLite model (default: vgg_face.tflite)")
+
+    args = parser.parse_args()
+
+    if not os.path.exists(args.weights):
+        print(f"Error: Weights file not found at {args.weights}")
+        print("Download link: https://github.com/serengil/deepface_models/releases/download/v1.0/vgg_face_weights.h5")
+        return
+
+    convert_vgg_face(args.weights, args.output)
+
+if __name__ == "__main__":
+    main()
