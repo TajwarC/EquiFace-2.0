@@ -9,3 +9,7 @@ IMAGE_SIZE = (160, 160)
 
 # Default threshold for cosine similarity
 DEFAULT_THRESHOLD = 0.5
+
+# Default dataset from Hugging Face
+DEFAULT_DATASET_ID = "TajwarC/ControlFace10k-restructure"
+DEFAULT_DATASET_DIR = "datasets/ControlFace10k"

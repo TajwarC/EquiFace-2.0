@@ -41,12 +41,34 @@ Where there are A-Z groups (such as skin tone or ethnic groups), each containing
 The False Negative Rate (FNR) is calculated by taking an input pair from each ID (e.g. img_1 and img_2), then computing the cosine similarity between the embeddings. A false positive occurs when an input pair is not verified for a particular ID. This is done for all input pairs, for all IDs in each group.
 
 The False Positive Rate (FPR) is calculated similarily, except input pairs are now images of one ID with another.
-## Example usage
+## Installation
 
-Installation
+### Using `uv` (Recommended)
 
-```python
-pip install equiface==0.1.1
+To set up the development environment with all dependencies:
+
+```bash
+uv sync
+```
+
+To run the package as a CLI:
+
+```bash
+uv run equiface
+```
+
+### Using Jupyter Notebooks
+
+To use EquiFace within a Jupyter notebook, you can install the package in your current environment:
+
+```bash
+uv pip install .
+```
+
+Or, if you are using `uv` to manage your environment, you can run Jupyter through `uv`:
+
+```bash
+uv run jupyter notebook
 ```
 Calculating FPRs and FNRs
 ```python
@@ -54,7 +76,8 @@ Calculating FPRs and FNRs
 from equiface.verification import FPR, FNR
 
 # Directories and parameters
-dataset_dir = 'testing_dataset/group_1'
+# Set dataset_dir to None to use the default ControlFace10k dataset from Hugging Face
+dataset_dir = 'testing_dataset/group_1' 
 model_path = 'model.tflite'
 image_size = (160,160) # Input dimension for model
 threshold = 0.5 # Threshold for cosine similarity

@@ -10,6 +10,7 @@ from functools import lru_cache
 from .image_utils import preprocess_image, get_embedding
 from .logging_utils import log_results
 from .constants import SUPPORTED_EXTENSIONS, DEFAULT_THRESHOLD, IMAGE_SIZE
+from .dataset_utils import download_default_dataset
 
 def normalise(embedding):
     embedding = np.ravel(embedding)
@@ -70,8 +71,8 @@ def process_pairs(image_pairs,
 
     return valid_results
 
-def FPR(dataset_dir,
-        model_path,
+def FPR(dataset_dir=None,
+        model_path=None,
         percentage=100,
         use_multiprocessing=False,
         num_cores=None,
@@ -82,7 +83,8 @@ def FPR(dataset_dir,
     Calculate False Positive Rates (FPRs) for the given TFlite model. 
     
     Args:
-        dataset_dir (str): Path to demographic subfolder in main dataset directory
+        dataset_dir (str, optional): Path to demographic subfolder in main dataset directory.
+                                     If None, the default dataset will be downloaded.
         model_path (str): Path to TFlite model
         Percentage (int): Percentage of total comparisons possible, i.e. if there are 64 possible comparisons
         percentage=50 will compute 32 comparisons.
@@ -94,7 +96,12 @@ def FPR(dataset_dir,
     Returns:
         FPR_value: The false positive rate for the IDs in the given dataset_dir
     """
+    if dataset_dir is None:
+        dataset_dir = download_default_dataset()
     
+    if model_path is None:
+        raise ValueError("model_path must be provided.")
+
     subfolders = sorted([
         f for f in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, f))
     ])
@@ -142,22 +149,19 @@ def FPR(dataset_dir,
 
     return FPR_value
 
-def FNR(dataset_dir,
-        model_path,
+def FNR(dataset_dir=None,
+        model_path=None,
         percentage=100,
         use_multiprocessing=False,
         num_cores=None,
         threshold=DEFAULT_THRESHOLD,
         image_size=IMAGE_SIZE):
-    subfolders = sorted([
-        f for f in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, f))
-    ])
-    
     """
     Calculate False Negative Rates (FNRs) for the given TFlite model. 
     
     Args:
-        dataset_dir (str): Path to demographic subfolder in main dataset directory
+        dataset_dir (str, optional): Path to demographic subfolder in main dataset directory.
+                                     If None, the default dataset will be downloaded.
         model_path (str): Path to TFlite model
         Percentage (int): Percentage of total comparisons possible, i.e. if there are 64 possible comparisons
         percentage=50 will compute 32 comparisons.
@@ -169,6 +173,15 @@ def FNR(dataset_dir,
     Returns:
         FNR_value: The false negative rate for the IDs in the given dataset_dir
     """
+    if dataset_dir is None:
+        dataset_dir = download_default_dataset()
+
+    if model_path is None:
+        raise ValueError("model_path must be provided.")
+
+    subfolders = sorted([
+        f for f in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, f))
+    ])
     image_pairs = [
         (os.path.join(dataset_dir, folder, img1), os.path.join(dataset_dir, folder, img2))
         for folder in subfolders

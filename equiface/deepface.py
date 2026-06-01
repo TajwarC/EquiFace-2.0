@@ -5,6 +5,7 @@ import yaml
 from tqdm import tqdm
 from deepface import DeepFace
 from multiprocessing import Pool, cpu_count
+from .dataset_utils import download_default_dataset
 
 """
 Wrapper for DeepFace backend if user wants to use pretrained non-TFlite models.
@@ -79,8 +80,10 @@ def process_pairs(image_pairs, model_name, threshold, use_multiprocessing=False,
     
     return valid_results  # List of (verified, distance)
 
-def FPR(dataset_dir, model_name="VGG-Face", threshold=None, percentage=100, use_multiprocessing=False, num_cores=None):
+def FPR(dataset_dir=None, model_name="VGG-Face", threshold=None, percentage=100, use_multiprocessing=False, num_cores=None):
     """ Calculates False Positive Rate (FPR). """
+    if dataset_dir is None:
+        dataset_dir = download_default_dataset()
     subfolders = sorted([f for f in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, f))])
     image_pairs = [(os.path.join(dataset_dir, f1, img1), os.path.join(dataset_dir, f2, img2))
                    for f1, f2 in itertools.combinations(subfolders, 2)
@@ -107,8 +110,10 @@ def FPR(dataset_dir, model_name="VGG-Face", threshold=None, percentage=100, use_
     log_results(dataset_dir, model_name, "FPR", FPR_value, total_pairs, num_processed, FP=FP, avg_distance=avg_distance)
     return FPR_value
 
-def FNR(dataset_dir, model_name="VGG-Face", threshold=None, percentage=100, use_multiprocessing=False, num_cores=None):
+def FNR(dataset_dir=None, model_name="VGG-Face", threshold=None, percentage=100, use_multiprocessing=False, num_cores=None):
     """ Calculates False Negative Rate (FNR). """
+    if dataset_dir is None:
+        dataset_dir = download_default_dataset()
     subfolders = [f for f in os.listdir(dataset_dir) if os.path.isdir(os.path.join(dataset_dir, f))]
     image_pairs = [(os.path.join(dataset_dir, folder, img1), os.path.join(dataset_dir, folder, img2))
                    for folder in subfolders
