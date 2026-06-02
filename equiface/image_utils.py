@@ -27,7 +27,7 @@ def preprocess_image(image_path, image_size):
 
     Args:
         image_path (str): Path to the image file.
-        image_size (tuple): Tuple of (width, height) for resizing.
+        image_size (int): Square dimension to resize the cropped face to.
 
     Returns:
         np.ndarray or None: Preprocessed image or None if no face is detected.
@@ -51,19 +51,19 @@ def preprocess_image(image_path, image_size):
         if _yolo_model.names[int(cls)] != 'face':
             return None 
 
-def get_embedding(interpreter, image):
+def get_embedding(interpreter, image, input_idx, output_idx):
     """
     Runs inference on a single image using a TFLite interpreter and returns the embedding vector.
 
     Args:
         interpreter: Loaded TFLite Interpreter.
         image (np.ndarray): Preprocessed input image.
+        input_idx (int): Pre-cached index of the input tensor.
+        output_idx (int): Pre-cached index of the output tensor.
 
     Returns:
         np.ndarray: Embedding vector.
     """
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-    interpreter.set_tensor(input_details[0]['index'], image)
+    interpreter.set_tensor(input_idx, image)
     interpreter.invoke()
-    return interpreter.get_tensor(output_details[0]['index']).flatten()
+    return interpreter.get_tensor(output_idx).flatten()

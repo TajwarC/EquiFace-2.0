@@ -5,7 +5,7 @@ SUPPORTED_EXTENSIONS = {'.jpg', '.jpeg', '.png'}
 LOG_FILE = "verification_results.yaml"
 
 # Default preprocessing image shape
-IMAGE_SIZE = (160, 160)
+IMAGE_SIZE = 160  # Square input dimension; both width and height
 
 # Default threshold for cosine similarity
 DEFAULT_THRESHOLD = 0.5
