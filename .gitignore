@@ -179,4 +179,5 @@ cython_debug/
 *.tflite
  
 # Datasets
-datasets/SynthPar/
+SynthPar/
+.SynthPar/
